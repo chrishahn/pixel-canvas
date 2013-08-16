@@ -1,6 +1,8 @@
 pixel-canvas
 ============
 
+![Link to the past](link_s.png "Link to the past")
+
 This tool aims to allow for the quick creation of pixel based art in the browser using jQuery and PHP's GD image library.
 
 It supports color-history, so you can design a pallette and then use it without having to search for the values again in the main list.
