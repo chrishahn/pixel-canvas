@@ -1,5 +1,4 @@
 <?php
-session_start();
 $colors = array(
     "White" => "#FFFFFF",
     "Black" => "#000000",

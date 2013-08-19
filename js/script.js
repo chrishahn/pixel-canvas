@@ -1,15 +1,24 @@
 var drag = false,
     active = "",
-    html = "",
-    defaultHtml = "<input name='canvas[]' type='hidden' value='0'/>";
+    
+    compileFormString = function() {
+        var data = [];
+        console.log($('.canvas .block').length);
+        // loop through the grid of blocks appending their color values to the form string
+        $('.canvas .block').each(function(index, element) {
+            var bgColor = $(element).css('background-color'),
+                rgb = bgColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            data.push(rgb[1] + "-" + rgb[2] + "-" + rgb[3]);
+        });
+        $('#formString').val(data.join("|"));
+    };
 
 $(function() {
     $('.colors, .recent').on('mousedown', '.color', function(e) {
         e.preventDefault();
         var color = $(this).css('background-color'),
             sel = $('.selection');
-            html = $(this).html();
-        sel.css('background-color', color).html(html);
+        sel.css('background-color', color);
         
         // add the color to the "recent" list, if that isn't what was clicked on
         if ($(this).parents('.recent').length != 1) {
@@ -24,16 +33,15 @@ $(function() {
         e.preventDefault();
         var color = $('.selection').css('background-color'),
             current = $(this).css('background-color');
-            html = $('.selection').html();
+            console.log(current);
         if (current != color) {
             active = color;
         }
         else {
             active = "white";
-            html = defaultHtml;
         }
         drag = true;
-        $(this).css('background-color', active).html(html);
+        $(this).css('background-color', active);
     });
     
     $('body').on('mouseup', function(e) {
@@ -44,23 +52,24 @@ $(function() {
     $('.block').on('mouseenter', function(e) {
         e.preventDefault();
         if (drag) {
-            $(this).css('background-color', active).html(html);
+            $(this).css('background-color', active);
         }
     });
     
     $('.fillGrid').on('click', function(e) {
         e.preventDefault();
         var color = $('.selection').css('background-color');
-        $('.block').css('background-color', color).html(html);
+        $('.block').css('background-color', color);
     });
     
     $('.clearGrid').on('click', function(e) {
         e.preventDefault();
-        $('.block').css('background-color', "white").html(defaultHtml);
+        $('.block').css('background-color', "white");
     });
     
     $('.submit').on('click', function(e) {
         e.preventDefault();
+        compileFormString();
         $('.canvasForm').submit();
     });
 });

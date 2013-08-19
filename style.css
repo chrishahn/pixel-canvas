@@ -11,6 +11,10 @@ li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, 
     vertical-align: baseline;
 }
 
+body {
+    background-image: url("bgStones.png");
+}
+
 .main {
     width: 1100px;
     height: 700px;

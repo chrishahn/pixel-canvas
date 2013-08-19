@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 include "../colors.php";
 if ($handle = opendir(getcwd())) {
 
@@ -14,39 +15,20 @@ if ($handle = opendir(getcwd())) {
     closedir($handle);
 }
 
-function html2rgb($color) {
-    if ($color[0] == '#')
-        $color = substr($color, 1);
-
-    if (strlen($color) == 6)
-        list($r, $g, $b) = array($color[0] . $color[1],
-            $color[2] . $color[3],
-            $color[4] . $color[5]);
-    elseif (strlen($color) == 3)
-        list($r, $g, $b) = array($color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2]);
-    else
-        return false;
-
-    $r = hexdec($r);
-    $g = hexdec($g);
-    $b = hexdec($b);
-    
-    return array($r, $g, $b);
-}
-
 if (!empty($_POST)) {
-    $canvas = $_POST['canvas'];
+    $formString = $_POST['formString'];
+    $canvas = explode('|', $formString);
     $_SESSION['canvas'] = $canvas;
 
-    $new = imagecreatetruecolor(600, 600);
+    $new = imagecreatetruecolor(800, 800);
     // fill the background with black for the grid lines
     $color = imagecolorallocate($new, 0, 0, 0);
-    imagefilledrectangle($new, 0, 0, 600, 600, $color);
+    imagefilledrectangle($new, 0, 0, 800, 800, $color);
     
     $size = 20; // width and height of each color block
-    $count = 30; // number of cells across and down in the canvas
-    foreach ($canvas as $blockIndex => $colorIndex) {
-        $rgb = html2rgb($colors[$colorIndex]);
+    $count = 40; // number of cells across and down in the canvas
+    foreach ($canvas as $blockIndex => $rgbString) {
+        $rgb = explode("-", $rgbString);
         $color = imagecolorallocate($new, $rgb['0'], $rgb['1'], $rgb['2']);
         $x = ($blockIndex % $count) * $size;
         $y = floor($blockIndex / $count) * $size;
