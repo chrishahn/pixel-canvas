@@ -3,7 +3,6 @@ var drag = false,
     
     compileFormString = function() {
         var data = [];
-        console.log($('.canvas .block').length);
         // loop through the grid of blocks appending their color values to the form string
         $('.canvas .block').each(function(index, element) {
             var bgColor = $(element).css('background-color'),
@@ -33,7 +32,6 @@ $(function() {
         e.preventDefault();
         var color = $('.selection').css('background-color'),
             current = $(this).css('background-color');
-            console.log(current);
         if (current != color) {
             active = color;
         }
